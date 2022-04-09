@@ -68,6 +68,13 @@ TARGET_NO_BOOTLOADER := true
 
 # Broken
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_DUP_RULES := true
+BUILD_BROKEN_PREBUILT_ELF_FILES := true
+RELAX_USES_LIBRARY_CHECK := true
+BUILD_BROKEN_MISSING_REQUIRED_MODULES := true
+BUILD_BROKEN_VENDOR_PROPERTY_NAMESPACE := true
+BUILD_BROKEN_DUP_RULES := true
+
 
 # Camera
 TARGET_USES_QTI_CAMERA_DEVICE := true
@@ -90,24 +97,20 @@ BOARD_HAVE_QCOM_FM := true
 
 # HIDL
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
-    $(COMMON_PATH)/framework_compatibility_matrix.xml \
-    vendor/aosp/config/device_framework_matrix.xml
-DEVICE_MANIFEST_FILE += hardware/qcom-caf/sm8150/media/conf_files/sm6150/c2_manifest.xml
-DEVICE_MATRIX_FILE := $(COMMON_PATH)/compatibility_matrix.xml
-DEVICE_MANIFEST_FILE := $(COMMON_PATH)/manifest.xml
+    $(COMMON_PATH)/hals/framework_compatibility_matrix.xml \
+    $(COMMON_PATH)/hals/device_framework_matrix.xml
+DEVICE_MANIFEST_FILE += hardware/qcom-caf/sm8150/media/conf_files/sm6150/c2_manifest_vendor.xml
+DEVICE_MATRIX_FILE := $(COMMON_PATH)/hals/compatibility_matrix.xml
+DEVICE_MANIFEST_FILE := $(COMMON_PATH)/hals/manifest.xml
 ODM_MANIFEST_SKUS += nfc
-ODM_MANIFEST_NFC_FILES := $(COMMON_PATH)/manifest_nfc.xml
+ODM_MANIFEST_NFC_FILES := $(COMMON_PATH)/hals/manifest_nfc.xml
 
 # Init
 TARGET_INIT_VENDOR_LIB ?= //$(COMMON_PATH):init_xiaomi_sm6150
 TARGET_RECOVERY_DEVICE_MODULES ?= init_xiaomi_sm6150
 
 # Kernel
-ifeq ($(PRODUCT_VIRTUAL_AB_OTA),true)
 BOARD_BOOT_HEADER_VERSION := 3
-else
-BOARD_BOOT_HEADER_VERSION := 2
-endif
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_IMAGE_NAME := Image
 BOARD_KERNEL_PAGESIZE := 4096
@@ -201,11 +204,11 @@ BOARD_USES_QCOM_HARDWARE := true
 TARGET_POWERHAL_MODE_EXT := $(COMMON_PATH)/power/power-mode.cpp
 
 # Properties
-TARGET_ODM_PROP += $(COMMON_PATH)/odm.prop
-TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
-TARGET_VENDOR_PROP += $(COMMON_PATH)/vendor.prop
-TARGET_PRODUCT_PROP += $(COMMON_PATH)/product.prop
-TARGET_SYSTEM_EXT_PROP += $(COMMON_PATH)/system_ext.prop
+TARGET_ODM_PROP += $(COMMON_PATH)/configs/props/odm.prop
+TARGET_SYSTEM_PROP += $(COMMON_PATH)/configs/props/system.prop
+TARGET_VENDOR_PROP += $(COMMON_PATH)/configs/props/vendor.prop
+TARGET_PRODUCT_PROP += $(COMMON_PATH)/configs/props/product.prop
+TARGET_SYSTEM_EXT_PROP += $(COMMON_PATH)/configs/props/system_ext.prop
 
 # Recovery
 ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS),true)
